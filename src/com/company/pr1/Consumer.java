@@ -1,4 +1,4 @@
-package pr1;
+package com.company.pr1;
 
 @FunctionalInterface
 public interface Consumer {

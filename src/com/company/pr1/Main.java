@@ -1,4 +1,4 @@
-package pr1;
+package com.company.pr1;
 
 
 public class Main {
@@ -7,6 +7,7 @@ public class Main {
         Consumer consumer = x-> maxStr(x);
         consumer.maxString(strings);
     }
+
     public static long countUnique(String strings){
         return strings.toLowerCase().chars().distinct().count();
     }
