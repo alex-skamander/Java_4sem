@@ -1,19 +1,24 @@
 package com.company.pr4;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-
+import java.util.concurrent.*;
 
 public class Main {
 
-    public static void main(String[] args) {
-        final ThreadGroup threadGroup = new ThreadGroup("pr");
-        ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
-            public Thread newThread(Runnable r) {
-                return new Thread(threadGroup, r);
-            }
-        });
-        System.out.println(threadGroup.activeCount());
+    static class Test {
+        public Test() throws InterruptedException {
+            Thread.sleep(200);
+            System.out.println("Test class constructor");
+        }
+    }
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        executor.submit(Test::new);
+        Future<String> future = executor.submit(() -> "Second submit");
+        // Останавливает потоки после их самостоятельного завершения
+        // executor.shutdownNow(); // Принудительно останавливает все потоки разом
+        if (future.isDone() && !future.isCancelled()) {
+            System.out.println("Future result: " + future.get());
+        }
     }
 }
